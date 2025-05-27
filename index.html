@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <title>Timer</title>
+</head>
+<body>
+    <button id="bg_btn" class="bg-btn">Change Wallpaper</button>
+    <div class="container">
+        <div id="timer">25:00</div>
+        <div class="button-group">
+            <button id="start_btn">Start</button>
+            <button id="stop_btn">Stop</button>
+        </div>
+        <div class="button-group">
+            <button id="reset_btn">Reset</button>
+            <button id="random_btn">Randomizer</button>
+        </div>
+    <div class="spotify-player" style="margin-top: 20px;">
+    <div class="spotify-input-group" style="margin-top: 10px;">
+        <input type="text" id="spotify_url" placeholder="Paste Spotify URL here">
+        <button id="load_spotify">Load</button>
+    </div>
+    <iframe id="spotify_iframe"
+        src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+        allowfullscreen>
+    </iframe>
+    </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
