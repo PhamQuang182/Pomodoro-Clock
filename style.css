@@ -9,27 +9,56 @@ body {
     background-position: center;
 }
 
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 30, 30, 0.25);
+    z-index: 0;
+    pointer-events: none;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: rgba(255,255,255,0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 18px;
+    padding: 40px 32px 32px 32px;
+    z-index: 1;
+    width: 420px; /* Set a fixed width */
+    /* Remove min-width if present */
 }
 
 #timer {
-    font-size: 100px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-size: 110px;
+    margin-bottom: 20px;
     font-family: 'Orbitron', monospace;
+    letter-spacing: 4px;
+    color: #fff;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.4);
+    width: 100%; /* Make timer take full width of container */
+    text-align: center;
+    /* Remove min-width if present */
 }
 
+.button-group button,
+.bg-btn,
+#load_spotify {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.1s, box-shadow 0.2s;
+}
+.button-group button:active,
+.bg-btn:active,
+#load_spotify:active {
+    transform: scale(0.97);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
 .button-group {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 8px; /* space between buttons */
-    margin-bottom: 10px;
+    margin-bottom: 18px;
 }
 
 
@@ -91,10 +120,12 @@ body {
 /* Add to your style.css */
 
 .spotify-player {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
+    background: rgba(255,255,255,0.13);
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    padding: 18px 18px 10px 18px;
+    margin-top: 28px;
+    z-index: 1;
 }
 
 .spotify-input-group {

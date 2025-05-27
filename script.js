@@ -1,41 +1,54 @@
-let time = 25 * 60; // 25 minutes in seconds
+let time = 25 * 60; // seconds
 const timerDiv = document.getElementById('timer');
 const startBtn = document.getElementById('start_btn');
 const stopBtn = document.getElementById('stop_btn');
 const resetBtn = document.getElementById('reset_btn');
 const randomBtn = document.getElementById('random_btn');
 let timerInterval = null;
+let endTime = null; // Track when the timer should end
+
+function displayTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    timerDiv.textContent = `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
 
 function updateTimer() {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    timerDiv.textContent =
-        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    if (time > 0) {
-        time--;
-    } else {
+    const now = Date.now();
+    let remaining = Math.round((endTime - now) / 1000);
+    if (remaining < 0) remaining = 0;
+    displayTime(remaining);
+    if (remaining <= 0) {
         clearInterval(timerInterval);
         timerInterval = null;
         timerDiv.textContent = "Time's up!";
     }
+    time = remaining; // Keep time in sync for reset/stop
 }
 
 function startTimer() {
     if (!timerInterval && time > 0) {
-        timerInterval = setInterval(updateTimer, 1000);
+        endTime = Date.now() + time * 1000;
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 200); // 200ms for better accuracy
     }
 }
 
 function stopTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
+    // Update time to what's left
+    if (endTime) {
+        let remaining = Math.round((endTime - Date.now()) / 1000);
+        time = remaining > 0 ? remaining : 0;
+    }
 }
 
 function resetTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
-    time = 25 * 60; // reset to 25 minutes
-    updateTimer();
+    time = 25 * 60;
+    displayTime(time);
 }
 
 function randomTimer() {
@@ -45,13 +58,17 @@ function randomTimer() {
     let max = 60;
     let randomMinutes = Math.floor(Math.random() * (max - min + 1)) + min;
     time = randomMinutes * 60;
-    updateTimer();
+    displayTime(time);
 }
 
 startBtn.addEventListener('click', startTimer);
 stopBtn.addEventListener('click', stopTimer);
 resetBtn.addEventListener('click', resetTimer);
 randomBtn.addEventListener('click', randomTimer);
+
+// ...existing background and Spotify code...
+
+displayTime(time); // initial display
 
 // Background image functionality
 const bgBtn = document.getElementById('bg_btn');
@@ -88,5 +105,3 @@ if (loadSpotifyBtn) {
         }
     });
 }
-
-updateTimer(); // initial display
