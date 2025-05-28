@@ -1,7 +1,7 @@
 let time = 25 * 60; // seconds
 const timerDiv = document.getElementById('timer');
 const startBtn = document.getElementById('start_btn');
-const stopBtn = document.getElementById('stop_btn');
+const pauseBtn = document.getElementById('pause_btn');
 const resetBtn = document.getElementById('reset_btn');
 const randomBtn = document.getElementById('random_btn');
 let timerInterval = null;
@@ -23,7 +23,7 @@ function updateTimer() {
         timerInterval = null;
         timerDiv.textContent = "Time's up!";
     }
-    time = remaining; // Keep time in sync for reset/stop
+    time = remaining; // Keep time in sync for reset/pause
 }
 
 function startTimer() {
@@ -34,7 +34,7 @@ function startTimer() {
     }
 }
 
-function stopTimer() {
+function pauseTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
     // Update time to what's left
@@ -62,7 +62,7 @@ function randomTimer() {
 }
 
 startBtn.addEventListener('click', startTimer);
-stopBtn.addEventListener('click', stopTimer);
+pauseBtn.addEventListener('click', pauseTimer);
 resetBtn.addEventListener('click', resetTimer);
 randomBtn.addEventListener('click', randomTimer);
 

@@ -27,7 +27,7 @@ body::before {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border-radius: 18px;
-    padding: 40px 32px 32px 32px;
+    padding: 32px 32px 32px 32px;
     z-index: 1;
     width: 420px; /* Set a fixed width */
     /* Remove min-width if present */
@@ -35,6 +35,7 @@ body::before {
 
 #timer {
     font-size: 110px;
+    padding-top: 0px;
     margin-bottom: 20px;
     font-family: 'Orbitron', monospace;
     letter-spacing: 4px;
@@ -62,7 +63,7 @@ body::before {
 }
 
 
-#start_btn, #stop_btn, #reset_btn, #random_btn {
+#start_btn, #pause_btn, #reset_btn, #random_btn {
     padding: 10px 20px;
     font-size: 20px;
     border: none;
@@ -70,7 +71,7 @@ body::before {
     cursor: pointer;
 }
 
-#start_btn:hover, #stop_btn:hover, #reset_btn:hover, #random_btn:hover{
+#start_btn:hover, #pause_btn:hover, #reset_btn:hover, #random_btn:hover{
     opacity: 0.8;
     filter: brightness(0.9);
 }
@@ -82,7 +83,7 @@ body::before {
     transition: filter 0.2s ease;
 }
 
-#stop_btn{
+#pause_btn{
     background-color: rgb(221, 57, 57); 
     color: white;
     width: 200px;
@@ -168,7 +169,7 @@ body::before {
 #spotify_iframe {
     border-radius: 16px;
     width: 340px;
-    height: 400px;
+    height: 80px;
     border: none;
     margin-top: 14px;
     background: #191414;
