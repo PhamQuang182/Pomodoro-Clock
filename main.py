@@ -31,7 +31,7 @@ def get_auth_header(token):
         "Authorization": "Bearer " + token
     }
 
-def serach_for_artist(token, artist_name):
+def search_for_artist(token, artist_name):
     url = "https://api.spotify.com/v1/search"
     headers = get_auth_header(token)
     query = f"?q={artist_name}&type=artist&limit=1"
@@ -54,7 +54,7 @@ def get_song_by_artist(token, artist_id):
     return json_result
 
 token = get_token()
-result = serach_for_artist(token, "laufey") 
+result = search_for_artist(token, "laufey") 
 artist_id = result["id"]
 songs = get_song_by_artist(token, artist_id)
 
