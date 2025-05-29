@@ -90,18 +90,32 @@ bgBtn.addEventListener('click', () => {
 const loadSpotifyBtn = document.getElementById('load_spotify');
 const spotifyUrlInput = document.getElementById('spotify_url');
 const spotifyIframe = document.getElementById('spotify_iframe');
+const spotifyResults = document.getElementById('spotify_results');
 
 if (loadSpotifyBtn) {
-    loadSpotifyBtn.addEventListener('click', () => {
-        const url = spotifyUrlInput.value.trim();
-        const match = url.match(/spotify\.com\/(track|album|playlist)\/([a-zA-Z0-9]+)/);
-        if (match) {
-            const type = match[1];
-            const id = match[2];
-            const embedUrl = `https://open.spotify.com/embed/${type}/${id}?utm_source=generator`;
-            spotifyIframe.src = embedUrl;
-        } else {
-            alert('Please enter a valid Spotify track, album, or playlist URL.');
+    loadSpotifyBtn.addEventListener('click', async () => {
+        const query = spotifyUrlInput.value.trim();
+        if (!query) return;
+        spotifyResults.innerHTML = 'Searching...';
+        try {
+            const res = await fetch(`http://127.0.0.1:5000/search?q=${encodeURIComponent(query)}`);
+            const data = await res.json();
+            spotifyResults.innerHTML = '';
+            if (data.tracks && data.tracks.items.length > 0) {
+                data.tracks.items.forEach(track => {
+                    const li = document.createElement('li');
+                    li.textContent = `${track.name} - ${track.artists.map(a => a.name).join(', ')}`;
+                    li.style.cursor = 'pointer';
+                    li.onclick = () => {
+                        spotifyIframe.src = `https://open.spotify.com/embed/track/${track.id}`;
+                    };
+                    spotifyResults.appendChild(li);
+                });
+            } else {
+                spotifyResults.innerHTML = '<li>No tracks found.</li>';
+            }
+        } catch (e) {
+            spotifyResults.innerHTML = '<li>Error searching Spotify.</li>';
         }
     });
 }

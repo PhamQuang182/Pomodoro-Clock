@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Montserrat:wght@700&display=swap');
+
 body {
     height: 100vh;
     margin: 0;
@@ -181,4 +183,38 @@ body::before {
 #spotify_iframe:hover {
     box-shadow: 0 10px 32px rgba(130, 151, 35, 0.28), 0 2px 8px rgba(0,0,0,0.15);
     outline: none;
+}
+
+#spotify_results {
+    list-style: none;
+    padding: 0;
+    margin: 12px 0 0 0;
+    max-height: 220px;
+    overflow-y: auto;
+    background: rgba(30, 30, 30, 0.18);
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+#spotify_results li {
+    padding: 10px 16px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.18s, color 0.18s;
+}
+
+#spotify_results li:last-child {
+    border-bottom: none;
+}
+
+#spotify_results li:hover {
+    background: #1db954;
+    color: #191414;
+}
+
+#spotify_results,
+#spotify_results li {
+    font-family: 'Circular', 'Montserrat', 'Roboto', Arial, sans-serif;
 }

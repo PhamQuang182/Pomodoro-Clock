@@ -1,3 +1,5 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import base64
@@ -5,20 +7,20 @@ from requests import post, get
 import json
 
 load_dotenv()
+app = Flask(__name__)
+CORS(app)
 
 client_id = os.getenv("CLIENT_ID")
 client_secret = os.getenv("CLIENT_SECRET")
-
 
 def get_token():
     auth_string = client_id + ":" + client_secret
     auth_bytes = auth_string.encode("utf-8")
     auth_base64 = str(base64.b64encode(auth_bytes), "utf-8")
-
     url = "https://accounts.spotify.com/api/token"
     headers = {
         "Authorization": "Basic " + auth_base64,
-        "COontent-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/x-www-form-urlencoded",
     }
     data = {"grant_type": "client_credentials"}
     result = post(url, headers=headers, data=data)
@@ -31,32 +33,21 @@ def get_auth_header(token):
         "Authorization": "Bearer " + token
     }
 
-def serach_for_artist(token, artist_name):
+@app.route('/search', methods=['GET'])
+def search():
+    query = request.args.get('q')
+    if not query:
+        return jsonify({"error": "Missing query"}), 400
+    token = get_token()
     url = "https://api.spotify.com/v1/search"
     headers = get_auth_header(token)
-    query = f"?q={artist_name}&type=artist&limit=1"
+    params = {
+        "q": query,
+        "type": "track",
+        "limit": 10
+    }
+    result = get(url, headers=headers, params=params)
+    return result.content, result.status_code, {'Content-Type': 'application/json'}
 
-    query_url = url + query
-    result = get(query_url, headers=headers)
-    json_result = json.loads(result.content)["artists"]["items"]
-
-    if len(json_result) == 0:
-        print("No artist found... try another name")
-        return None
-    
-    return json_result[0]
-
-def get_song_by_artist(token, artist_id):
-    url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
-    headers = get_auth_header(token)
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)["tracks"]
-    return json_result
-
-token = get_token()
-result = serach_for_artist(token, "laufey") 
-artist_id = result["id"]
-songs = get_song_by_artist(token, artist_id)
-
-for idx, song in enumerate(songs):
-    print(f"{idx + 1}. {song['name']}")
+if __name__ == '__main__':
+    app.run(debug=True)
