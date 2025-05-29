@@ -33,52 +33,21 @@ def get_auth_header(token):
         "Authorization": "Bearer " + token
     }
 
-<<<<<<< HEAD
 @app.route('/search', methods=['GET'])
 def search():
     query = request.args.get('q')
     if not query:
         return jsonify({"error": "Missing query"}), 400
     token = get_token()
-=======
-def search_for_artist(token, artist_name):
->>>>>>> a19c1784a88dac8f87c4312916c1bc03ecb98ce5
     url = "https://api.spotify.com/v1/search"
     headers = get_auth_header(token)
     params = {
         "q": query,
         "type": "track",
-        "limit": 10
+        "limit": 5
     }
     result = get(url, headers=headers, params=params)
     return result.content, result.status_code, {'Content-Type': 'application/json'}
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     app.run(debug=True)
-=======
-    query_url = url + query
-    result = get(query_url, headers=headers)
-    json_result = json.loads(result.content)["artists"]["items"]
-
-    if len(json_result) == 0:
-        print("No artist found... try another name")
-        return None
-    
-    return json_result[0]
-
-def get_song_by_artist(token, artist_id):
-    url = f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?country=US"
-    headers = get_auth_header(token)
-    result = get(url, headers=headers)
-    json_result = json.loads(result.content)["tracks"]
-    return json_result
-
-token = get_token()
-result = search_for_artist(token, "laufey") 
-artist_id = result["id"]
-songs = get_song_by_artist(token, artist_id)
-
-for idx, song in enumerate(songs):
-    print(f"{idx + 1}. {song['name']}")
->>>>>>> a19c1784a88dac8f87c4312916c1bc03ecb98ce5
